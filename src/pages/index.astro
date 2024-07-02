@@ -1,98 +1,47 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
 
 type AppInfo = {
   appName: string;
+  appLogoUrl: string;
+  answer: string;
 };
 
-const allAppInfo: [CollectionEntry<AppInfo>] = await getCollection("app-info");
+const allAppInfo = await getCollection("AppInfo");
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Is It A Dating App?</title>
-  </head>
-  <body>
-    <h1>Is It A Dating App?</h1>
-    <div class="app-cards">
-      {
-        allAppInfo.map((appInfo) => (
+<BaseLayout>
+  <div class="app-cards">
+    {
+      allAppInfo.map((appInfo) => {
+        const data: AppInfo = appInfo.data;
+        return (
           <a class="app-card" href="#">
             <div class="app-card-body">
               <div class="app-card-front">
                 {appInfo.data.appLogoUrl ? (
                   <div class="app-logo">
-                    <img src={appInfo.data.appLogoUrl} width="100%" alt="" />
+                    <img src={data.appLogoUrl} width="100%" alt="" />
                   </div>
                 ) : (
                   ""
                 )}
-                <div class="app-name">{appInfo.data.appName}</div>
+                <div class="app-name">{data.appName}</div>
                 <div class="app-question">?</div>
               </div>
               <div class="app-card-back">
-                <div class="app-answer">{appInfo.data.answer}</div>
+                <div class="app-answer">{data.answer}</div>
               </div>
             </div>
           </a>
-        ))
-      }
-    </div>
-  </body>
-</html>
+        );
+      })
+    }
+  </div>
+</BaseLayout>
 
 <style>
-  /*
-	Inspired by Josh's Custom CSS Reset
-	https://www.joshwcomeau.com/css/custom-css-reset/
-	*/
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-
-  * {
-    margin: 0;
-  }
-
-  body {
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  img,
-  picture,
-  video,
-  canvas,
-  svg {
-    display: block;
-    max-width: 100%;
-  }
-
-  input,
-  button,
-  textarea,
-  select {
-    font: inherit;
-  }
-
-  p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    overflow-wrap: break-word;
-  }
-
   /** Flip Card implementation originally taken from: 
       https://www.smashingmagazine.com/2020/02/magic-flip-cards-common-sizing-problem/
   */
