@@ -1,5 +1,12 @@
 ---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
+type AppInfo = {
+  appName: string;
+};
+
+const allAppInfo: [CollectionEntry<AppInfo>] = await getCollection("app-info");
 ---
 
 <!doctype html>
@@ -14,66 +21,28 @@
   <body>
     <h1>Is It A Dating App?</h1>
     <div class="app-cards">
-      <a class="app-card" href="#">
-        <div class="app-card-body">
-          <div class="app-card-front">
-            <div class="app-logo">Logo</div>
-            <div class="app-name">App Name</div>
-            <div class="app-answer">?</div>
-          </div>
-          <div class="app-card-back">
-            <div class="app-answer">Lorem ipsum</div>
-          </div>
-        </div>
-      </a>
-      <a class="app-card" href="#">
-        <div class="app-card-body">
-          <div class="app-card-front">
-            <div class="app-logo">Logo</div>
-            <div class="app-name">App Name</div>
-            <div class="app-answer">?</div>
-          </div>
-          <div class="app-card-back">
-            <div class="app-answer">Lorem ipsum</div>
-          </div>
-        </div>
-      </a>
-      <a class="app-card" href="#">
-        <div class="app-card-body">
-          <div class="app-card-front">
-            <div class="app-logo">Logo</div>
-            <div class="app-name">App Name</div>
-            <div class="app-answer">?</div>
-          </div>
-          <div class="app-card-back">
-            <div class="app-answer">Lorem ipsum</div>
-          </div>
-        </div>
-      </a>
-      <a class="app-card" href="#">
-        <div class="app-card-body">
-          <div class="app-card-front">
-            <div class="app-logo">Logo</div>
-            <div class="app-name">App Name</div>
-            <div class="app-answer">?</div>
-          </div>
-          <div class="app-card-back">
-            <div class="app-answer">Lorem ipsum</div>
-          </div>
-        </div>
-      </a>
-      <a class="app-card" href="#">
-        <div class="app-card-body">
-          <div class="app-card-front">
-            <div class="app-logo">Logo</div>
-            <div class="app-name">App Name</div>
-            <div class="app-answer">?</div>
-          </div>
-          <div class="app-card-back">
-            <div class="app-answer">Lorem ipsum</div>
-          </div>
-        </div>
-      </a>
+      {
+        allAppInfo.map((appInfo) => (
+          <a class="app-card" href="#">
+            <div class="app-card-body">
+              <div class="app-card-front">
+                {appInfo.data.appLogoUrl ? (
+                  <div class="app-logo">
+                    <img src={appInfo.data.appLogoUrl} width="100%" alt="" />
+                  </div>
+                ) : (
+                  ""
+                )}
+                <div class="app-name">{appInfo.data.appName}</div>
+                <div class="app-question">?</div>
+              </div>
+              <div class="app-card-back">
+                <div class="app-answer">{appInfo.data.answer}</div>
+              </div>
+            </div>
+          </a>
+        ))
+      }
     </div>
   </body>
 </html>
@@ -142,6 +111,7 @@
     text-decoration: none;
     cursor: default;
   }
+
   a.app-card:link,
   a.app-card:visited,
   a.app-card:hover,
