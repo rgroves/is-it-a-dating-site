@@ -1,0 +1,119 @@
+---
+import { getCollection } from "astro:content";
+
+type AppInfo = {
+  appName: string;
+  appLogoUrl: string;
+  answer: string;
+};
+
+const allAppInfo = await getCollection("AppInfo");
+---
+
+<div class="app-cards">
+  {
+    allAppInfo.map((appInfo) => {
+      const data: AppInfo = appInfo.data;
+      return (
+        <a class="app-card" href="#">
+          <div class="app-card-body">
+            <div class="app-card-front">
+              {appInfo.data.appLogoUrl ? (
+                <div class="app-logo">
+                  <img src={data.appLogoUrl} width="100%" alt="" />
+                </div>
+              ) : (
+                <></>
+              )}
+              <div class="app-name">{data.appName}</div>
+              <img src="/question.svg" width="25%" alt="" />
+            </div>
+            <div class="app-card-back">
+              <div class="app-answer">{data.answer}</div>
+            </div>
+          </div>
+        </a>
+      );
+    })
+  }
+</div>
+
+<style>
+  /** Flip Card implementation originally taken from: 
+        https://www.smashingmagazine.com/2020/02/magic-flip-cards-common-sizing-problem/
+    */
+
+  .app-cards {
+    display: grid;
+    --flip-time: 0.75s;
+
+    grid-gap: 1.5rem;
+    grid-auto-rows: 1fr;
+    padding: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  }
+
+  a.app-card {
+    text-decoration: none;
+    cursor: default;
+  }
+
+  a.app-card:link,
+  a.app-card:visited,
+  a.app-card:hover,
+  a.app-card:active {
+    color: black;
+  }
+
+  .app-card {
+    perspective: 40rem;
+
+    transition:
+      z-index,
+      transform calc(var(--flip-time) / 4);
+    transition-delay: var(--flip-time), 0s;
+    z-index: 0;
+  }
+
+  .app-card:hover {
+    transition-delay: 0s;
+    z-index: 1;
+  }
+
+  .app-card:active {
+    transform: scale(0.75);
+  }
+
+  .app-card-body {
+    display: flex;
+    transform-style: preserve-3d;
+    transition: var(--flip-time) transform;
+  }
+
+  .app-card:hover .app-card-body {
+    transform: rotateX(-180deg);
+  }
+  .app-card:focus .app-card-body {
+    transform: rotateX(-180deg);
+  }
+
+  .app-card-front,
+  .app-card-back {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    min-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+  }
+
+  .app-card-back {
+    transform: rotateX(-180deg) translate(-100%, 0);
+  }
+</style>
