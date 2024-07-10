@@ -1,5 +1,5 @@
 ---
-appName: "Placeholder2"
+appName: "TikTok"
 appLogoUrl: ""
 answer: "No"
 ---

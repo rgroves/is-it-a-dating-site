@@ -1,5 +1,5 @@
 ---
-appName: "Placeholder3"
+appName: "LinkedIn"
 appLogoUrl: ""
 answer: "No"
 ---

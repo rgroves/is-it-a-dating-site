@@ -1,5 +1,5 @@
 ---
-appName: "Placeholder"
+appName: "FitBit"
 appLogoUrl: ""
 answer: "No"
 ---

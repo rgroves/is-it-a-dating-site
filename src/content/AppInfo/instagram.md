@@ -1,5 +1,5 @@
 ---
-appName: "Placeholder5"
+appName: "Instagram"
 appLogoUrl: ""
 answer: "No"
 ---
