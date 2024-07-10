@@ -1,5 +1,7 @@
 ---
-
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
 ---
 
 <!doctype html>
@@ -12,54 +14,10 @@
     <title>Is It A Dating App?</title>
   </head>
   <body>
-    <h1>Is It A Dating App?</h1>
-    <slot />
+    <Header />
+    <main style="flex: auto">
+      <slot />
+    </main>
+    <Footer />
   </body>
-
-  <style is:global>
-    /*
-	Inspired by Josh's Custom CSS Reset
-	https://www.joshwcomeau.com/css/custom-css-reset/
-	*/
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    * {
-      margin: 0;
-    }
-
-    body {
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    img,
-    picture,
-    video,
-    canvas,
-    svg {
-      display: block;
-      max-width: 100%;
-    }
-
-    input,
-    button,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    p,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      overflow-wrap: break-word;
-    }
-  </style>
 </html>

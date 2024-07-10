@@ -1,0 +1,72 @@
+---
+
+---
+
+<header>
+  <div class="site-title">Is It A Dating App?</div>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/faq">FAQ</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  div.site-title {
+    margin: var(--space-m);
+    font-weight: bold;
+    font-size: var(--step-1);
+    line-height: 1.25em;
+    text-wrap: balance;
+  }
+
+  header {
+    background-color: var(--header-surface);
+    color: var(--header-text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 0.1em solid var(--header-text-color);
+  }
+
+  nav {
+    margin: 0 var(--space-s);
+    padding: 0;
+    flex-grow: 1;
+  }
+
+  nav > ul {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: no-wrap;
+    justify-content: flex-end;
+    gap: var(--space-3xs);
+    list-style: none;
+  }
+
+  nav > ul > li {
+    padding: var(--space-3xs);
+    border-radius: 0.75em;
+    flex-grow: 0;
+    flex-basis: 7em;
+    text-align: center;
+    font-weight: bold;
+    font-size: var(--step--1);
+    text-transform: uppercase;
+  }
+
+  nav > ul > li:hover {
+    background-color: var(--nav-item-surface);
+  }
+
+  nav > ul > li > a {
+    display: block;
+    text-decoration: none;
+    color: currentColor;
+  }
+</style>
