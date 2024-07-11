@@ -1,5 +1,8 @@
 ---
 appName: "TikTok"
-appLogoUrl: ""
+appLogoUrl: "./app-icons/tiktok.svg"
+minWidth: 16
+minHeight: 16
 answer: "No"
+brandUrl: "https://developers.tiktok.com/doc/getting-started-design-guidelines?enter_method=left_navigation"
 ---

@@ -4,7 +4,11 @@ import { getCollection } from "astro:content";
 type AppInfo = {
   appName: string;
   appLogoUrl: string;
+  minWidth: number;
+  minHeight: number;
   answer: string;
+  brandUrl?: string;
+  LogoOrientation?: string;
 };
 
 const allAppInfo = await getCollection("AppInfo");
@@ -19,7 +23,7 @@ const allAppInfo = await getCollection("AppInfo");
           <div class="app-card-body">
             <div class="app-card-front">
               {appInfo.data.appLogoUrl ? (
-                <img class="app-logo" src={data.appLogoUrl} width="50px" height="50px" alt="" />
+                <img class={data.LogoOrientation ? data.LogoOrientation : "app-logo-square"} src={data.appLogoUrl} width={data.minWidth} height={data.minHeight} alt="" />
               ) : (
                 <></>
               )}
@@ -40,9 +44,14 @@ const allAppInfo = await getCollection("AppInfo");
         https://www.smashingmagazine.com/2020/02/magic-flip-cards-common-sizing-problem/
     */
 
-  .app-logo {
-    width: 100%;
+  .app-logo-square {
+    width: 30%;
     height: auto;
+  }
+
+  .app-logo-landscape {
+    width: auto;
+    height: 30%;
   }
 
   .app-cards {
@@ -82,6 +91,7 @@ const allAppInfo = await getCollection("AppInfo");
     display: flex;
     transform-style: preserve-3d;
     transition: var(--flip-time) transform;
+    height: 100%;
   }
 
   .app-card:hover .app-card-body {
@@ -101,7 +111,7 @@ const allAppInfo = await getCollection("AppInfo");
     flex: auto;
     flex-direction: column;
     gap: 1em;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
     border-radius: 0.5rem;
