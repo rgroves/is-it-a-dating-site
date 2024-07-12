@@ -1,0 +1,9 @@
+{
+    "appName": "Facebook",
+    "appLogoUrl": "/app-icons/facebook.png",
+    "LogoOrientation": "app-logo-square",
+    "minWidth": 16,
+    "minHeight": 16,
+    "answer": "Maybe",
+    "brandUrl": "https://about.meta.com/brand/resources/facebook/logo/"
+}
