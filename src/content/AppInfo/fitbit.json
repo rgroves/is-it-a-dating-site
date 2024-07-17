@@ -1,9 +1,7 @@
 {
   "appName": "Fitbit",
-  "appLogoUrl": "/src/assets/fitbit.webp",
-  "logoOrientation": "app-logo-square",
-  "minWidth": 24,
-  "minHeight": 24,
-  "answer": "No",
+  "appLogoPath": "/src/assets/fitbit.webp",
+  "appLogoOrientation": "square",
+  "appAnswer": "No",
   "brandUrl": "https://www.fitbit.com/global/us/legal/trademark-policy"
 }

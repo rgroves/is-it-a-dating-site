@@ -1,9 +1,7 @@
 {
   "appName": "Tinder",
-  "appLogoUrl": "/src/assets/tinder.webp",
-  "logoOrientation": "app-logo-square",
-  "minWidth": 16,
-  "minHeight": 16,
-  "answer": "Yes",
+  "appLogoPath": "/src/assets/tinder.webp",
+  "appLogoOrientation": "square",
+  "appAnswer": "Yes",
   "brandUrl": "https://policies.tinder.com/intellectual-property/intl/en/?lang=en"
 }

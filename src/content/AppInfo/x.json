@@ -1,9 +1,7 @@
 {
   "appName": "X",
-  "appLogoUrl": "/src/assets/x.webp",
-  "logoOrientation": "app-logo-square",
-  "minWidth": 16,
-  "minHeight": 16,
-  "answer": "No",
+  "appLogoPath": "/src/assets/x.webp",
+  "appLogoOrientation": "square",
+  "appAnswer": "No",
   "brandUrl": "https://about.x.com/en/who-we-are/brand-toolkit"
 }

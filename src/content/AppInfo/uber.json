@@ -1,9 +1,7 @@
 {
   "appName": "Uber",
-  "appLogoUrl": "/src/assets/uber.webp",
-  "logoOrientation": "app-logo-square",
-  "minWidth": 16,
-  "minHeight": 16,
-  "answer": "No",
+  "appLogoPath": "/src/assets/uber.webp",
+  "appLogoOrientation": "square",
+  "appAnswer": "No",
   "brandUrl": "https://assets.uber.com/public"
 }

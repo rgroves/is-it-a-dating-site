@@ -2,37 +2,23 @@
 import { getCollection } from "astro:content";
 import AppCard from "./AppCard.astro";
 
-type AppInfo = {
-  appName: string;
-  appLogoUrl: string;
-  minWidth: number;
-  minHeight: number;
-  answer: string;
-  brandUrl?: string;
-  logoOrientation: string;
-};
-
 const allAppInfo = await getCollection("AppInfo");
 const sortedApps = allAppInfo.sort((a, b) => {
-  return a.data.appName < b.data.appName
-    ? -1
-    : a.data.appName > b.data.appName
-      ? 1
-      : 0;
+  return a.data.appName.localeCompare(b.data.appName);
 });
 ---
 
 <div class="app-cards">
   {
     sortedApps.map((appInfo) => {
-      const data: AppInfo = appInfo.data;
+      const data = appInfo.data;
       return (
         <AppCard
           appName={data.appName}
           altText=""
-          appLogoPath={data.appLogoUrl}
-          appLogoOrientation={data.logoOrientation}
-          appAnswer={data.answer}
+          appLogoPath={data.appLogoPath}
+          appLogoOrientation={data.appLogoOrientation}
+          appAnswer={data.appAnswer}
         />
       );
     })

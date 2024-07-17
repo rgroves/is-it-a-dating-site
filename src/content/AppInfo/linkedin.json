@@ -1,9 +1,7 @@
 {
   "appName": "LinkedIn",
-  "appLogoUrl": "/src/assets/linkedin.webp",
-  "logoOrientation": "app-logo-square",
-  "minWidth": 16,
-  "minHeight": 16,
-  "answer": "No",
+  "appLogoPath": "/src/assets/linkedin.webp",
+  "appLogoOrientation": "square",
+  "appAnswer": "No",
   "brandUrl": "https://brand.linkedin.com/policies"
 }

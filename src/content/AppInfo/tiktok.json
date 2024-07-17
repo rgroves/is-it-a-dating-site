@@ -1,8 +1,7 @@
 {
-    "appName": "TikTok",
-    "appLogoUrl": "/src/assets/tiktok.webp",
-    "minWidth": 16,
-    "minHeight": 16,
-    "answer": "No",
-    "brandUrl": "https://developers.tiktok.com/doc/getting-started-design-guidelines?enter_method=left_navigation"
+  "appName": "TikTok",
+  "appLogoPath": "/src/assets/tiktok.webp",
+  "appLogoOrientation": "square",
+  "appAnswer": "No",
+  "brandUrl": "https://developers.tiktok.com/doc/getting-started-design-guidelines?enter_method=left_navigation"
 }

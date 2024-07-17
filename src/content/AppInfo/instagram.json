@@ -1,9 +1,7 @@
 {
   "appName": "Instagram",
-  "appLogoUrl": "/src/assets/instagram.webp",
-  "logoOrientation": "app-logo-square",
-  "minWidth": 16,
-  "minHeight": 16,
-  "answer": "No",
+  "appLogoPath": "/src/assets/instagram.webp",
+  "appLogoOrientation": "square",
+  "appAnswer": "No",
   "brandUrl": "https://about.meta.com/brand/resources/instagram/instagram-brand/"
 }

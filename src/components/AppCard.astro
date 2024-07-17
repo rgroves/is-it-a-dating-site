@@ -20,20 +20,18 @@ if (!images[appLogoPath]){
 } 
 
 const image = await images[appLogoPath]();
-const logoOrientationClass = appLogoOrientation ? appLogoOrientation : "app-logo-square";
+const appLogoOrientationClass =  `app-logo-${appLogoOrientation}`;
 
 let minWidth = 0;
 let maxWidth = 0;
 
-if (logoOrientationClass === "app-logo-square") {
+if (appLogoOrientation === "square") {
   minWidth = 48;
   maxWidth = 90;
 } else {
   minWidth = 128;
   maxWidth = 256;
 }
-
-console.log(image.default.src, minWidth, maxWidth);
 ---
 <a class="app-card" data-answer={appAnswer} href="#">
     <div class="app-card-body">
@@ -45,7 +43,7 @@ console.log(image.default.src, minWidth, maxWidth);
                 alt={altText} 
                 widths={[minWidth, maxWidth]}
                 sizes={`(max-width: 720px) ${minWidth}px, ${maxWidth}px`}
-                class={logoOrientationClass} 
+                class={appLogoOrientationClass} 
             />
             ) : ( <></> )
         }
