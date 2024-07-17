@@ -1,0 +1,150 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+   appName: string;
+   altText: string;
+   appLogoPath: string;
+   appLogoOrientation: string;
+   appAnswer: string;
+}
+
+const { appName, altText = "", appLogoPath, appLogoOrientation, appAnswer } = Astro.props;
+const imgGlob = "/src/assets/*.{jpeg,jpg,png,gif,svg,webp}"
+
+const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/*.{jpeg,jpg,png,gif,svg,webp}");
+
+if (!images[appLogoPath]){
+  throw new Error(`"${appLogoPath}" does not exist in glob: "${imgGlob}"`);
+} 
+
+const image = await images[appLogoPath]();
+const logoOrientationClass = appLogoOrientation ? appLogoOrientation : "app-logo-square";
+
+let minWidth = 0;
+let maxWidth = 0;
+
+if (logoOrientationClass === "app-logo-square") {
+  minWidth = 48;
+  maxWidth = 90;
+} else {
+  minWidth = 128;
+  maxWidth = 256;
+}
+
+console.log(image.default.src, minWidth, maxWidth);
+---
+<a class="app-card" data-answer={appAnswer} href="#">
+    <div class="app-card-body">
+      <div class="app-card-front">
+        {
+            appLogoPath ? (
+            <Image 
+                src={image.default} 
+                alt={altText} 
+                widths={[minWidth, maxWidth]}
+                sizes={`(max-width: 720px) ${minWidth}px, ${maxWidth}px`}
+                class={logoOrientationClass} 
+            />
+            ) : ( <></> )
+        }
+        <p class="app-question">Is {appName} a dating app?</p>
+      </div>
+      <div class="app-card-back">
+        <div class="app-answer">{appAnswer}</div>
+      </div>
+    </div>
+  </a>
+
+<style>
+  .app-logo-square {
+    width: var(--space-l);
+    height: auto;
+  }
+
+  .app-logo-landscape {
+    width: auto;
+    height: var(--space-l);
+  }
+
+  .app-question {
+    flex-grow: 1;
+  }
+
+  a.app-card {
+    text-decoration: none;
+    cursor: default;
+  }
+
+  .app-card {
+    perspective: 40rem;
+
+    transition:
+      z-index,
+      transform calc(var(--flip-time) / 4);
+    transition-delay: var(--flip-time), 0s;
+    z-index: 0;
+  }
+
+  .app-card:hover {
+    transition-delay: 0s;
+    z-index: 1;
+  }
+
+  .app-card:active {
+    transform: scale(0.75);
+  }
+
+  .app-card-body {
+    display: flex;
+    transform-style: preserve-3d;
+    transition: var(--flip-time) transform;
+    height: 100%;
+  }
+
+  .app-card:hover .app-card-body {
+    transform: rotateX(-180deg);
+  }
+  .app-card:focus .app-card-body {
+    transform: rotateX(-180deg);
+  }
+
+  .app-card-front,
+  .app-card-back {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    min-width: 100%;
+
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    gap: var(--space-s);
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 0.5rem;
+    padding: 1em;
+    font-weight: bold;
+    line-height: 1.1em;
+    color: var(--app-card-text-color);
+    background-color: var(--app-card-surface);
+    border: .1em solid #5a3d2b;
+    text-align: center;
+    text-wrap: pretty;
+  }
+
+  .app-card-back {
+    transform: rotateX(-180deg) translate(-100%, 0);
+    border: .25em solid red;
+  }
+
+  .app-card[data-answer="Yes"] .app-card-back {
+    border: .25em solid green;
+  }
+
+  .app-card[data-answer="Maybe"] .app-card-back {
+    border: .25em solid orange;
+  }
+
+</style>

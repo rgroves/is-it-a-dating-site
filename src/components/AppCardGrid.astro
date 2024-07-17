@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import AppCard from "./AppCard.astro";
 
 type AppInfo = {
   appName: string;
@@ -8,32 +9,31 @@ type AppInfo = {
   minHeight: number;
   answer: string;
   brandUrl?: string;
-  LogoOrientation?: string;
+  logoOrientation: string;
 };
 
 const allAppInfo = await getCollection("AppInfo");
+const sortedApps = allAppInfo.sort((a, b) => {
+  return a.data.appName < b.data.appName
+    ? -1
+    : a.data.appName > b.data.appName
+      ? 1
+      : 0;
+});
 ---
 
 <div class="app-cards">
   {
-    allAppInfo.map((appInfo) => {
+    sortedApps.map((appInfo) => {
       const data: AppInfo = appInfo.data;
       return (
-        <a class="app-card" data-answer={data.answer} href="#">
-          <div class="app-card-body">
-            <div class="app-card-front">
-              {appInfo.data.appLogoUrl ? (
-                <img class={data.LogoOrientation ? data.LogoOrientation : "app-logo-square"} src={data.appLogoUrl} width={data.minWidth} height={data.minHeight} alt="" />
-              ) : (
-                <></>
-              )}
-              <p class="app-question">Is {data.appName} a dating app?</p>
-            </div>
-            <div class="app-card-back">
-              <div class="app-answer">{data.answer}</div>
-            </div>
-          </div>
-        </a>
+        <AppCard
+          appName={data.appName}
+          altText=""
+          appLogoPath={data.appLogoUrl}
+          appLogoOrientation={data.logoOrientation}
+          appAnswer={data.answer}
+        />
       );
     })
   }
@@ -43,21 +43,6 @@ const allAppInfo = await getCollection("AppInfo");
   /** Flip Card implementation originally taken from: 
         https://www.smashingmagazine.com/2020/02/magic-flip-cards-common-sizing-problem/
     */
-
-  .app-logo-square {
-    width: var(--space-l);
-    height: auto;
-  }
-
-  .app-logo-landscape {
-    width: auto;
-    height: var(--space-l);
-  }
-
-  .app-question {
-    flex-grow: 1;
-  }
-
   .app-cards {
     --flip-time: 0.75s;
     display: grid;
@@ -65,80 +50,5 @@ const allAppInfo = await getCollection("AppInfo");
     grid-gap: var(--space-m);
     grid-auto-rows: auto;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  }
-
-  a.app-card {
-    text-decoration: none;
-    cursor: default;
-  }
-
-  .app-card {
-    perspective: 40rem;
-
-    transition:
-      z-index,
-      transform calc(var(--flip-time) / 4);
-    transition-delay: var(--flip-time), 0s;
-    z-index: 0;
-  }
-
-  .app-card:hover {
-    transition-delay: 0s;
-    z-index: 1;
-  }
-
-  .app-card:active {
-    transform: scale(0.75);
-  }
-
-  .app-card-body {
-    display: flex;
-    transform-style: preserve-3d;
-    transition: var(--flip-time) transform;
-    height: 100%;
-  }
-
-  .app-card:hover .app-card-body {
-    transform: rotateX(-180deg);
-  }
-  .app-card:focus .app-card-body {
-    transform: rotateX(-180deg);
-  }
-
-  .app-card-front,
-  .app-card-back {
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    min-width: 100%;
-
-    display: flex;
-    flex: auto;
-    flex-direction: column;
-    gap: var(--space-s);
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-    border-radius: 0.5rem;
-    padding: 1em;
-    font-weight: bold;
-    line-height: 1.1em;
-    color: var(--app-card-text-color);
-    background-color: var(--app-card-surface);
-    border: .1em solid #5a3d2b;
-    text-align: center;
-    text-wrap: pretty;
-  }
-
-  .app-card-back {
-    transform: rotateX(-180deg) translate(-100%, 0);
-    border: .25em solid red;
-  }
-
-  .app-card[data-answer="Yes"] .app-card-back {
-    border: .25em solid green;
-  }
-
-  .app-card[data-answer="Maybe"] .app-card-back {
-    border: .25em solid yellow;
   }
 </style>

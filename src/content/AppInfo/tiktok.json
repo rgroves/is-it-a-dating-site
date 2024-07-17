@@ -1,6 +1,6 @@
 {
     "appName": "TikTok",
-    "appLogoUrl": "./app-icons/tiktok.svg",
+    "appLogoUrl": "/src/assets/tiktok.webp",
     "minWidth": 16,
     "minHeight": 16,
     "answer": "No",
