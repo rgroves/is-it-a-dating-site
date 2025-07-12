@@ -47,7 +47,7 @@ if (appLogoOrientation === "square") {
             />
             ) : ( <></> )
         }
-        <p class="app-question">Is {appName} a dating app?</p>
+        <p class="app-question">Is {appName}<br/>a dating app?</p>
       </div>
       <div class="app-card-back">
         <div class="app-answer">{appAnswer}</div>
@@ -57,13 +57,15 @@ if (appLogoOrientation === "square") {
 
 <style>
   .app-logo-square {
-    width: var(--space-l);
+    width: var(--space-xxl);
+    max-width: 90px;
     height: auto;
   }
 
   .app-logo-landscape {
     width: auto;
-    height: var(--space-l);
+    height: var(--space-xxl);
+    max-height: 90px;
   }
 
   .app-question {
