@@ -15,9 +15,16 @@ import "../styles/global.css";
   </head>
   <body>
     <Header />
-    <main style="flex: auto">
+    <main>
       <slot />
     </main>
     <Footer />
   </body>
 </html>
+
+<style>
+  main {
+    flex: auto;
+    margin: var(--space-m);
+  }
+</style>
