@@ -1,6 +1,8 @@
-import { z, defineCollection } from "astro:content";
+import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 const appInfoCollection = defineCollection({
+  loader: glob({ pattern: "**/*.json", base: "./src/content/AppInfo" }),
   schema: z.object({
     appName: z.string(),
     appLogoPath: z.string(),
@@ -10,7 +12,6 @@ const appInfoCollection = defineCollection({
     appAnswer: z.string(),
     brandUrl: z.string().optional(),
   }),
-  type: "data",
 });
 
 export const collections = {
