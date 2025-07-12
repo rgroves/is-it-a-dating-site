@@ -70,7 +70,9 @@ const sortedApps = allAppInfo.sort((a, b) => {
     const card = event.target as HTMLElement;
 
     if (card.dataset.answer === "No") {
-      const sound = noSounds[getNonRepeatingSoundIdx(prevSoundIdx)];
+      const soundIdx = getNonRepeatingSoundIdx(prevSoundIdx);
+      const sound = noSounds[soundIdx];
+      prevSoundIdx = soundIdx;
 
       if (sound) {
         const id = sound.attributes.getNamedItem("id")?.value || "";
@@ -90,7 +92,7 @@ const sortedApps = allAppInfo.sort((a, b) => {
         soundId
       ) as HTMLMediaElement;
       if (sound) {
-        setTimeout(() => fadeOut(sound), 100);
+        fadeOut(sound);
       }
     }
   });
