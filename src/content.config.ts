@@ -6,10 +6,8 @@ const appInfoCollection = defineCollection({
   schema: z.object({
     appName: z.string(),
     appLogoPath: z.string(),
-    // can we make this a strict choice of: "Square", "Landscape"
-    appLogoOrientation: z.string(),
-    // can we make this a strict choice of: "Yes", "No", "Maybe"
-    appAnswer: z.string(),
+    appLogoOrientation: z.union([z.literal("square"), z.literal("landscape")]),
+    appAnswer: z.union([z.literal("Yes"), z.literal("No"), z.literal("Maybe")]),
     brandUrl: z.string().optional(),
   }),
 });
