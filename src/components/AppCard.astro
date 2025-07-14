@@ -41,7 +41,7 @@ if (appLogoOrientation === "square") {
               src={image.default}
               alt={altText}
               widths={[minWidth, maxWidth]}
-              sizes={`(max-width: 720px) ${minWidth}px, ${maxWidth}px`}
+              sizes={`(max-width: 420px) ${minWidth}px, ${maxWidth}px`}
               class={appLogoOrientationClass}
           />
           ) : ( <></> )
@@ -78,7 +78,6 @@ if (appLogoOrientation === "square") {
       z-index,
       transform calc(var(--flip-time) / 4);
     transition-delay: var(--flip-time), 0s;
-    z-index: 0;
   }
 
   .app-card[aria-pressed="true"] .app-card-body {
