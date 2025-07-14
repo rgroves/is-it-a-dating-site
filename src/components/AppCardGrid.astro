@@ -24,6 +24,11 @@ const sortedApps = allAppInfo.sort((a, b) => {
     })
   }
 </div>
+<!-- This is the instruction to let SR users know about flip cards. -->
+<span class="sr-only" id="app-card-desc"
+  >This is a flip card. Activated by pressing enter or spacebar, or alt + enter/
+  alt + space bar.</span
+>
 
 <div id="no-sounds">
   <audio id="sid-1" src="/audio/aint-got-time.mp3"></audio>
@@ -58,6 +63,30 @@ const sortedApps = allAppInfo.sort((a, b) => {
       sound.volume = newVolume;
       setTimeout(() => fadeOut(sound), 100);
     }
+  };
+
+  const toggleFlip = (card: HTMLElement) => {
+    const isPressed = card.getAttribute("aria-pressed") === "true";
+    card.setAttribute("aria-pressed", String(!isPressed));
+
+    if (!isPressed) {
+      card.dispatchEvent(flipEvent);
+    } else {
+      card.dispatchEvent(unflipEvent);
+    }
+  };
+
+  const toggleSrHidden = (card: HTMLElement) => {
+    const isSRHidden = card.getAttribute("aria-pressed") === "true";
+    const front = card.querySelector(".app-card-front");
+    const back = card.querySelector(".app-card-back");
+
+    if (!front || !back) {
+      throw new Error("AppCard: Front or back element not found in the card.");
+    }
+
+    front.setAttribute("aria-hidden", String(isSRHidden));
+    back.setAttribute("aria-hidden", String(!isSRHidden));
   };
 
   const grid = document.querySelector(".app-cards");
@@ -98,30 +127,31 @@ const sortedApps = allAppInfo.sort((a, b) => {
   });
 
   const appCards: Array<HTMLElement> = Array.from(
-    document.querySelectorAll(".app-cards > *")
+    grid.querySelectorAll(".app-card")
   );
 
-  const eventXlateMap = new Map<string, Event>([
-    ["mouseenter", flipEvent],
-    ["focusin", flipEvent],
-    ["mouseleave", unflipEvent],
-    ["focusout", unflipEvent],
-  ]);
-
-  eventXlateMap.forEach((event, eventType) => {
-    appCards.forEach((card) => {
-      card.addEventListener(eventType, (e) => {
-        e.stopPropagation();
-        card.dispatchEvent(event);
-      });
+  appCards.forEach((card) => {
+    card.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleFlip(card);
+      toggleSrHidden(card);
+    });
+    card.addEventListener("keydown", (e) => {
+      e.stopPropagation();
+      if ((e.code === "Enter" || e.code === "Space") && !e.repeat) {
+        e.preventDefault();
+        toggleFlip(card);
+        toggleSrHidden(card);
+      }
     });
   });
 </script>
 
 <style>
-  /** Flip Card implementation originally taken from: 
+  /** Flip Card implementation inpired by:
         https://www.smashingmagazine.com/2020/02/magic-flip-cards-common-sizing-problem/
-    */
+        https://codeaccessible.com/codepatterns/flip-cards/
+  */
   .app-cards {
     --flip-time: 0.75s;
     display: grid;

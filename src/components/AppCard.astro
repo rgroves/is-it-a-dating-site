@@ -17,8 +17,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/*.{jpeg
 
 if (!images[appLogoPath]){
   throw new Error(`"${appLogoPath}" does not exist in glob: "${imgGlob}"`);
-} 
-
+}
 const image = await images[appLogoPath]();
 const appLogoOrientationClass =  `app-logo-${appLogoOrientation}`;
 
@@ -33,27 +32,27 @@ if (appLogoOrientation === "square") {
   maxWidth = 256;
 }
 ---
-<a class="app-card" data-answer={appAnswer} href="#">
-    <div class="app-card-body">
-      <div class="app-card-front">
-        {
-            appLogoPath ? (
-            <Image 
-                src={image.default} 
-                alt={altText} 
-                widths={[minWidth, maxWidth]}
-                sizes={`(max-width: 720px) ${minWidth}px, ${maxWidth}px`}
-                class={appLogoOrientationClass} 
-            />
-            ) : ( <></> )
-        }
-        <p class="app-question">Is {appName}<br/>a dating app?</p>
-      </div>
-      <div class="app-card-back">
-        <div class="app-answer">{appAnswer}</div>
-      </div>
+<div class="app-card" data-answer={appAnswer} role="button" aria-pressed="false" tabindex="0"  aria-describedby="app-card-desc">
+  <div class="app-card-body">
+    <div class="app-card-front" aria-hidden="false">
+      {
+          appLogoPath ? (
+          <Image
+              src={image.default}
+              alt={altText}
+              widths={[minWidth, maxWidth]}
+              sizes={`(max-width: 720px) ${minWidth}px, ${maxWidth}px`}
+              class={appLogoOrientationClass}
+          />
+          ) : ( <></> )
+      }
+      <p class="app-question">Is {appName}<br/>a dating app?</p>
     </div>
-  </a>
+    <div class="app-card-back" aria-hidden="true">
+      <div class="app-answer">{appAnswer}</div>
+    </div>
+  </div>
+</div>
 
 <style>
   .app-logo-square {
@@ -66,22 +65,6 @@ if (appLogoOrientation === "square") {
     width: auto;
     height: var(--space-xxl);
     max-height: 90px;
-  }
-
-  .app-question {
-    flex-grow: 0;
-    padding-top: 1em;
-  }
-
-  a.app-card {
-    text-decoration: none;
-    cursor: default;
-  }
-
-  .app-answer {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--app-card-text-color);
   }
 
   .app-card {
@@ -98,27 +81,21 @@ if (appLogoOrientation === "square") {
     z-index: 0;
   }
 
-  .app-card:hover {
+  .app-card[aria-pressed="true"] .app-card-body {
+    transform: rotateX(-180deg);
     transition-delay: 0s;
     z-index: 1;
   }
-
-  .app-card:active {
-    transform: scale(0.75);
+  .app-card:hover {
+    transform: scale(1.025);
   }
 
   .app-card-body {
+    cursor: pointer;
     display: flex;
     transform-style: preserve-3d;
     transition: var(--flip-time) transform;
     height: 100%;
-  }
-
-  .app-card:hover .app-card-body {
-    transform: rotateX(-180deg);
-  }
-  .app-card:focus .app-card-body {
-    transform: rotateX(-180deg);
   }
 
   .app-card-front,
@@ -135,7 +112,6 @@ if (appLogoOrientation === "square") {
     align-items: center;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
     border-radius: 0.5rem;
-    padding: 1em;
     font-size: 1.2em;
     font-weight: bold;
     line-height: 1.1em;
@@ -146,8 +122,22 @@ if (appLogoOrientation === "square") {
     text-wrap: pretty;
   }
 
+  .app-question {
+    flex-grow: 0;
+    padding-top: 1em;
+  }
+
   .app-card-back {
     transform: rotateX(-180deg) translate(-100%, 0);
+  }
+
+  .app-answer {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--app-card-text-color);
+  }
+
+  .app-card[data-answer="No"] .app-card-back {
     border: .25em solid red;
   }
 
