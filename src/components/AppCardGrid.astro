@@ -30,49 +30,22 @@ const sortedApps = allAppInfo.sort((a, b) => {
   alt + space bar.</span
 >
 
-<div id="no-sounds">
-  <audio id="sid-1" src="/audio/aint-got-time.mp3"></audio>
-  <audio id="sid-2" src="/audio/how-about-no.mp3"></audio>
-  <audio id="sid-3" src="/audio/oh-hell-nah-sung.mp3"></audio>
-  <audio id="sid-4" src="/audio/no-way-man.mp3"></audio>
-  <audio id="sid-5" src="/audio/oh-hell-no.mp3"></audio>
-</div>
-
 <script>
-  let prevSoundIdx: number = -1;
-  const flipEvent = new CustomEvent("cardflipped", { bubbles: true });
-  const unflipEvent = new CustomEvent("cardunflipped", { bubbles: true });
-
-  const noSounds: NodeListOf<HTMLMediaElement> =
-    document.querySelectorAll("#no-sounds > audio");
-
-  const getNonRepeatingSoundIdx = (prevSoundIdx: number) => {
-    let idx = Math.floor(Math.random() * noSounds.length);
-    return idx === prevSoundIdx
-      ? (idx = (prevSoundIdx + 1) % noSounds.length)
-      : idx;
-  };
-
-  const fadeOut = (sound: HTMLMediaElement) => {
-    const newVolume = sound.volume - 0.1;
-    if (newVolume <= 0) {
-      sound.pause();
-      sound.currentTime = 0;
-      sound.volume = 1;
-    } else {
-      sound.volume = newVolume;
-      setTimeout(() => fadeOut(sound), 100);
-    }
-  };
+  const playSoundEvent = new CustomEvent("iiada-play-sound", {
+    bubbles: true,
+  });
+  const fadeSoundEvent = new CustomEvent("iiada-fade-sound", {
+    bubbles: true,
+  });
 
   const toggleFlip = (card: HTMLElement) => {
     const isPressed = card.getAttribute("aria-pressed") === "true";
     card.setAttribute("aria-pressed", String(!isPressed));
 
     if (!isPressed) {
-      card.dispatchEvent(flipEvent);
+      card.dispatchEvent(playSoundEvent);
     } else {
-      card.dispatchEvent(unflipEvent);
+      card.dispatchEvent(fadeSoundEvent);
     }
   };
 
@@ -94,37 +67,6 @@ const sortedApps = allAppInfo.sort((a, b) => {
   if (!grid) {
     throw new Error("AppCardGrid: No grid found in the document.");
   }
-
-  grid.addEventListener(flipEvent.type, (event) => {
-    const card = event.target as HTMLElement;
-
-    if (card.dataset.answer === "No") {
-      const soundIdx = getNonRepeatingSoundIdx(prevSoundIdx);
-      const sound = noSounds[soundIdx];
-      prevSoundIdx = soundIdx;
-
-      if (sound) {
-        const id = sound.attributes.getNamedItem("id")?.value || "";
-        card.dataset.sid = id;
-        sound.muted = false;
-        sound.play();
-      }
-    }
-  });
-
-  grid.addEventListener(unflipEvent.type, (event) => {
-    const card = event.target as HTMLElement;
-    const soundId = card.dataset.sid;
-    if (soundId) {
-      card.dataset.sid = "";
-      const sound: HTMLMediaElement | null = document.getElementById(
-        soundId
-      ) as HTMLMediaElement;
-      if (sound) {
-        fadeOut(sound);
-      }
-    }
-  });
 
   const appCards: Array<HTMLElement> = Array.from(
     grid.querySelectorAll(".app-card")
