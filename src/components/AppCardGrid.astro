@@ -37,6 +37,9 @@ const sortedApps = allAppInfo.sort((a, b) => {
   const fadeSoundEvent = new CustomEvent("iiada-fade-sound", {
     bubbles: true,
   });
+  const genWTFEvent = new CustomEvent("iiada-gen-wtf", {
+    bubbles: true,
+  });
 
   const toggleFlip = (card: HTMLElement) => {
     const isPressed = card.getAttribute("aria-pressed") === "true";
@@ -44,6 +47,9 @@ const sortedApps = allAppInfo.sort((a, b) => {
 
     if (!isPressed) {
       card.dispatchEvent(playSoundEvent);
+      if (card.dataset.answer === "No") {
+        document.body.dispatchEvent(genWTFEvent);
+      }
     } else {
       card.dispatchEvent(fadeSoundEvent);
     }

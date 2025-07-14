@@ -1,0 +1,85 @@
+---
+const fallSpeed = 12;
+---
+
+<div id="rain-line" data-fallSpeed={fallSpeed}></div>
+
+<script>
+  const rainLine = document.getElementById("rain-line");
+  if (!rainLine) {
+    throw new Error("rain-line element not found in the document.");
+  }
+
+  const fallSpeed = parseInt(rainLine.getAttribute("data-fallSpeed") || "0");
+  document.body.addEventListener("iiada-gen-wtf", () => {
+    const wtfDiv = document.createElement("div");
+    const minWidth = 15 + Math.floor(Math.random() * 30);
+    const leftRandPosition = 5 + Math.floor(Math.random() * 91);
+    const leftPosition = Math.min(leftRandPosition, 100 - minWidth);
+    wtfDiv.className = "falling-div";
+    wtfDiv.style.left = `${leftPosition}vw`;
+    wtfDiv.style.transform = `translateX(-${leftPosition}%)`;
+    wtfDiv.setAttribute("aria-live", "polite");
+    wtfDiv.innerText = "Test a Raining WTF! ".repeat(4);
+    rainLine.appendChild(wtfDiv);
+
+    setTimeout(() => {
+      wtfDiv.remove();
+    }, fallSpeed * 1000);
+  });
+</script>
+
+<style is:global define:vars={{ rainfallDuration: `${fallSpeed}s` }}>
+  #rain-line {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+  }
+
+  .falling-div {
+    border: 5px solid #000;
+    z-index: 2;
+    max-width: 40ch;
+    font-weight: bold;
+    font-style: italic;
+    font-size: var(--step-0);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: #eee;
+    background-color: rgba(200, 200, 200, 0.25);
+    backdrop-filter: blur(5px);
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    animation: fall-bounce var(--rainfallDuration) ease-out forwards;
+  }
+
+  @keyframes fall-bounce {
+    0% {
+      top: 0;
+      opacity: 1;
+    }
+    60% {
+      top: calc(100vh - 150px);
+      opacity: 1;
+    }
+    70% {
+      top: calc(100vh - 170px);
+      opacity: 1;
+    }
+    75% {
+      top: calc(100vh - 150px);
+      opacity: 1;
+    }
+    90% {
+      opacity: 0.5;
+    }
+    100% {
+      top: calc(100vh + 150px);
+      opacity: 0;
+    }
+  }
+</style>
