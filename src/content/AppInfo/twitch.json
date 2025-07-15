@@ -1,0 +1,7 @@
+{
+  "appName": "Twitch",
+  "appLogoPath": "/src/assets/twitch.webp",
+  "appLogoOrientation": "square",
+  "appAnswer": "No",
+  "brandUrl": "https://commons.wikimedia.org/wiki/File:Twitch_logo.svg"
+}

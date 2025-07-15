@@ -1,0 +1,7 @@
+{
+  "appName": "Match",
+  "appLogoPath": "/src/assets/match.webp",
+  "appLogoOrientation": "square",
+  "appAnswer": "Yes",
+  "brandUrl": "https://play.google.com/store/apps/details?id=com.match.android.matchmobile"
+}

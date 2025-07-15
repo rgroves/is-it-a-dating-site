@@ -1,0 +1,7 @@
+{
+  "appName": "Grindr",
+  "appLogoPath": "/src/assets/grindr.webp",
+  "appLogoOrientation": "square",
+  "appAnswer": "Yes",
+  "brandUrl": "https://play.google.com/store/apps/details?id=com.grindrapp.android&hl=en_US"
+}
