@@ -48,10 +48,12 @@ const sortedApps = allAppInfo.sort((a, b) => {
     if (!isPressed) {
       card.dispatchEvent(playSoundEvent);
       if (card.dataset.answer === "No") {
+        card.classList.add("shake");
         card.dispatchEvent(genWTFEvent);
       }
     } else {
       card.dispatchEvent(fadeSoundEvent);
+      card.classList.remove("shake");
     }
   };
 
