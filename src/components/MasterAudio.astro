@@ -3,27 +3,51 @@
 ---
 
 <div id="no-sounds">
-  <audio id="sid-1" src="/audio/aint-got-time.mp3"></audio>
-  <audio id="sid-2" src="/audio/how-about-no.mp3"></audio>
-  <audio id="sid-3" src="/audio/oh-hell-nah-sung.mp3"></audio>
-  <audio id="sid-4" src="/audio/no-way-man.mp3"></audio>
-  <audio id="sid-5" src="/audio/oh-hell-no.mp3"></audio>
+  <audio id="sid-1" src="/audio/oh-hell-no.mp3" preload="auto"></audio>
 </div>
 
 <script>
+  const noSounds: Array<HTMLMediaElement> = Array.from(
+    document.querySelectorAll("#no-sounds > audio")
+  );
+
+  const soundAssetsSources = {
+    "sid-2": "/audio/how-about-no.mp3",
+    "sid-3": "/audio/oh-hell-nah-sung.mp3",
+    "sid-4": "/audio/no-way-man.mp3",
+    "sid-5": "/audio/aint-got-time.mp3",
+  };
+
+  window.addEventListener("load", () => {
+    const soundContainer = document.getElementById("no-sounds");
+
+    if (!soundContainer) {
+      console.error("No sound container found in the DOM.");
+      return;
+    }
+
+    Object.entries(soundAssetsSources).forEach(([id, src]) => {
+      const audioElement = document.createElement("audio");
+      audioElement.id = id;
+      audioElement.src = src;
+      audioElement.preload = "auto";
+      audioElement.addEventListener("loadedmetadata", () => {
+        noSounds.push(audioElement);
+      });
+      soundContainer.appendChild(audioElement);
+    });
+  });
+
   const playing = new Set();
 
   let prevSoundIdx: number = -1;
-  const noSounds: NodeListOf<HTMLMediaElement> =
-    document.querySelectorAll("#no-sounds > audio");
-  const getNonRepeatingSoundIdx = (prevSoundIdx: number) => {
+
+  const getNonRepeatingSoundIdx = (lastIdx: number) => {
     let idx = Math.floor(Math.random() * noSounds.length);
-    return idx === prevSoundIdx
-      ? (idx = (prevSoundIdx + 1) % noSounds.length)
-      : idx;
+    return idx === lastIdx ? (lastIdx + 1) % noSounds.length : idx;
   };
 
-  document.body.addEventListener("iiada-play-sound", (event) => {
+  document.body.addEventListener("iiada-play-sound", async (event) => {
     const card = event.target as HTMLElement;
 
     if (card.dataset.answer === "No") {
@@ -36,7 +60,7 @@
           sound.pause();
           playing.delete(sound);
         }
-        const id = sound.attributes.getNamedItem("id")?.value || "";
+        const id = sound.id;
         card.dataset.sid = id;
         sound.muted = false;
         sound.currentTime = 0;
@@ -51,6 +75,7 @@
     const newVolume = sound.volume - 0.15;
     if (newVolume <= 0) {
       sound.pause();
+      playing.delete(sound);
     } else if (playing.has(sound)) {
       sound.volume = newVolume;
       setTimeout(() => fadeOut(sound), 100);
