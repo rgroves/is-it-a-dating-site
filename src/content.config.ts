@@ -12,6 +12,20 @@ const appInfoCollection = defineCollection({
   }),
 });
 
+const wtfsCollection = defineCollection({
+  loader: glob({ pattern: "**/*.json", base: "./src/content/WTFs" }),
+  schema: z.object({
+    app: z.string(),
+    wtfs: z.array(
+      z.object({
+        wtf: z.string(),
+        srcUrl: z.string().url(),
+      })
+    ),
+  }),
+});
+
 export const collections = {
   AppInfo: appInfoCollection,
+  WTFs: wtfsCollection,
 };

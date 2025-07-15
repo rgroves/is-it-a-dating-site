@@ -1,17 +1,38 @@
 ---
 const fallSpeed = 12;
+
+import { getCollection } from "astro:content";
+const wtfCollection = await getCollection("WTFs");
+
+const wtfMap: Record<string, string[]> = {};
+wtfCollection.forEach((wtf) => {
+  const app = wtf.data.app;
+  const wtfs = wtf.data.wtfs;
+  if (!wtfMap[app]) {
+    wtfMap[app] = wtfs.map((item) => item.wtf);
+  }
+});
 ---
 
-<div id="rain-line" data-fallSpeed={fallSpeed}></div>
+<div id="rain-line" data-fall-speed={fallSpeed}></div>
 
-<script>
+<script define:vars={{ wtfMap }}>
   const rainLine = document.getElementById("rain-line");
   if (!rainLine) {
     throw new Error("rain-line element not found in the document.");
   }
 
-  const fallSpeed = parseInt(rainLine.getAttribute("data-fallSpeed") || "0");
-  document.body.addEventListener("iiada-gen-wtf", () => {
+  document.body.addEventListener("iiada-gen-wtf", (event) => {
+    const fallSpeed = parseInt(rainLine.dataset.fallSpeed || "0");
+    const card = event.target;
+    const appName = card.dataset.appName;
+
+    const appWtfs = wtfMap[appName] || [];
+    const wtfText = `"${appWtfs[Math.floor(Math.random() * appWtfs.length)] || "WTF!"}"`;
+    if (!wtfText) {
+      return;
+    }
+
     const wtfDiv = document.createElement("div");
     const minWidth = 15 + Math.floor(Math.random() * 30);
     const leftRandPosition = 5 + Math.floor(Math.random() * 91);
@@ -20,7 +41,7 @@ const fallSpeed = 12;
     wtfDiv.style.left = `${leftPosition}vw`;
     wtfDiv.style.transform = `translateX(-${leftPosition}%)`;
     wtfDiv.setAttribute("aria-live", "polite");
-    wtfDiv.innerText = "Test a Raining WTF! ".repeat(4);
+    wtfDiv.innerText = wtfText;
     rainLine.appendChild(wtfDiv);
 
     setTimeout(() => {

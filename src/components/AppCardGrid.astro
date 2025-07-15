@@ -48,7 +48,7 @@ const sortedApps = allAppInfo.sort((a, b) => {
     if (!isPressed) {
       card.dispatchEvent(playSoundEvent);
       if (card.dataset.answer === "No") {
-        document.body.dispatchEvent(genWTFEvent);
+        card.dispatchEvent(genWTFEvent);
       }
     } else {
       card.dispatchEvent(fadeSoundEvent);
