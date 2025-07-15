@@ -28,10 +28,8 @@ wtfCollection.forEach((wtf) => {
     const appName = card.dataset.appName;
 
     const appWtfs = wtfMap[appName] || [];
-    const wtfText = `"${appWtfs[Math.floor(Math.random() * appWtfs.length)] || "WTF!"}"`;
-    if (!wtfText) {
-      return;
-    }
+    const randomWtf = appWtfs[Math.floor(Math.random() * appWtfs.length)];
+    const wtfText = randomWtf ? `"${randomWtf}"` : "💩 WTF! 💩";
 
     const wtfDiv = document.createElement("div");
     const minWidth = 15 + Math.floor(Math.random() * 30);
@@ -58,6 +56,20 @@ wtfCollection.forEach((wtf) => {
     left: 0;
     width: 100%;
     background: transparent;
+  }
+
+  .falling-div::before {
+    content: "Seen In The WWWild";
+    background-color: var(--header-surface);
+    border-radius: 0.5em;
+    padding: 0 0.25em;
+    color: var(--header-text-color);
+    position: absolute;
+    top: -1.25em;
+    left: -0.25em;
+    font-size: var(--step--1);
+    opacity: 1;
+    text-wrap: nowrap;
   }
 
   .falling-div {
