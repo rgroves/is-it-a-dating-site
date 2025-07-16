@@ -239,6 +239,7 @@ html {
   --footer-text-color-dark: #0e1111;
   --app-card-surface-dark: #f4f3ee;
   --app-card-text-color-dark: #0e1111;
+  --reading-surface: #f4f3ee;
 
   --body-surface: var(--body-surface-dark);
   --header-surface: var(--header-surface-dark);
@@ -274,6 +275,21 @@ body {
   line-height: 1.5em;
   display: flex;
   flex-direction: column;
+}
+
+p {
+  margin: var(--space-s-m) 0;
+}
+
+h1 {
+  line-height: 1.5rem;
+  font-weight: 600;
+  font-size: var(--step-3);
+  margin: var(--space-s-m) 0 var(--space-m-l);
+}
+
+ul {
+  margin: var(--space-s-l) 0;
 }
 
 .sr-only {
